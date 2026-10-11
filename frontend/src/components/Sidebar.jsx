@@ -1,119 +1,227 @@
-function Sidebar({
-  activePage,
-  setActivePage
-}) {
-
-  const menuItems = [
+function Sidebar({ activePage, setActivePage }) {
+  const monitoringItems = [
     {
-      name: "Dashboard",
-      icon: "◈"
+      name: "Overview",
+      icon: "▦",
     },
     {
       name: "Heat Map",
-      icon: "◎"
+      icon: "◉",
     },
     {
-      name: "Simulator",
-      icon: "✦"
+      name: "Forecast",
+      icon: "◷",
     },
     {
-      name: "Vulnerability",
-      icon: "△"
+      name: "Risk Analysis",
+      icon: "△",
+    },
+  ];
+
+  const actionItems = [
+    {
+      name: "AI Cooling Plan",
+      icon: "✦",
+    },
+    {
+      name: "Digital Twin",
+      icon: "◇",
+    },
+    {
+      name: "Alerts",
+      icon: "!",
+    },
+  ];
+
+  const reportingItems = [
+    {
+      name: "Heat Action Plan",
+      icon: "□",
     },
     {
       name: "Reports",
-      icon: "▤"
-    }
+      icon: "▤",
+    },
   ];
 
-  return (
+  const handleNavigation = (page) => {
+    setActivePage(page);
+  };
 
+  const renderNavigationItem = (item) => {
+    const isActive = activePage === item.name;
+
+    return (
+      <button
+        key={item.name}
+        type="button"
+        className={`sidebar-item ${
+          isActive ? "active" : ""
+        }`}
+        onClick={() => handleNavigation(item.name)}
+      >
+        <span className="sidebar-item-icon">
+          {item.icon}
+        </span>
+
+        <span className="sidebar-item-name">
+          {item.name}
+        </span>
+
+        {isActive && (
+          <span className="sidebar-active-arrow">
+            ›
+          </span>
+        )}
+      </button>
+    );
+  };
+
+  return (
     <aside className="sidebar">
 
-      <div className="brand">
+      {/* ==================================================
+          BRAND
+          ================================================== */}
 
-        <div className="brand-symbol">
-          S
+      <div className="sidebar-brand">
+
+        <div className="brand-mark">
+          SK
         </div>
 
-        <div>
+        <div className="brand-text">
 
-          <h2>
-            SheetKshetra
-          </h2>
+          <div className="brand-name">
+            SHEETKSHETRA
+          </div>
 
-          <span>
-            URBAN COOLING AI
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div className="navigation">
-
-        <p>
-          WORKSPACE
-        </p>
-
-
-        {menuItems.map((item) => (
-
-          <button
-            key={item.name}
-            className={`nav-button ${
-              activePage === item.name
-                ? "active"
-                : ""
-            }`}
-            onClick={() =>
-              setActivePage(item.name)
-            }
-          >
-
-            <span>
-              {item.icon}
-            </span>
-
-            {item.name}
-
-          </button>
-
-        ))}
-
-      </div>
-
-
-      <div className="sidebar-footer">
-
-        <button className="settings">
-          ⚙ Settings
-        </button>
-
-
-        <div className="system-status">
-
-          <span></span>
-
-          <div>
-
-            <strong>
-              System Online
-            </strong>
-
-            <small>
-              All systems operational
-            </small>
-
+          <div className="brand-subtitle">
+            URBAN HEAT INTELLIGENCE
           </div>
 
         </div>
 
       </div>
 
-    </aside>
 
+      {/* ==================================================
+          NAVIGATION
+          ================================================== */}
+
+      <nav
+        className="sidebar-navigation"
+        aria-label="Main navigation"
+      >
+
+        {/* MONITORING */}
+
+        <section className="sidebar-section">
+
+          <div className="sidebar-section-title">
+            MONITORING
+          </div>
+
+          <div className="sidebar-menu">
+            {monitoringItems.map(
+              renderNavigationItem
+            )}
+          </div>
+
+        </section>
+
+
+        {/* ACTION CENTER */}
+
+        <section className="sidebar-section">
+
+          <div className="sidebar-section-title">
+            ACTION CENTER
+          </div>
+
+          <div className="sidebar-menu">
+            {actionItems.map(
+              renderNavigationItem
+            )}
+          </div>
+
+        </section>
+
+
+        {/* REPORTING */}
+
+        <section className="sidebar-section">
+
+          <div className="sidebar-section-title">
+            REPORTING
+          </div>
+
+          <div className="sidebar-menu">
+            {reportingItems.map(
+              renderNavigationItem
+            )}
+          </div>
+
+        </section>
+
+      </nav>
+
+
+      {/* ==================================================
+          SIDEBAR FOOTER
+          ================================================== */}
+
+      <div className="sidebar-bottom">
+
+        {/* MONITORED CITY */}
+
+        <div className="monitored-city">
+
+          <div className="city-label">
+            MONITORED CITY
+          </div>
+
+          <div className="city-name">
+            Bhubaneswar
+          </div>
+
+          <div className="city-location">
+            Odisha, India
+          </div>
+
+        </div>
+
+
+        {/* SYSTEM STATUS */}
+
+        <div className="system-status">
+
+          <span className="status-dot"></span>
+
+          <div className="system-status-content">
+
+            <div className="status-title">
+              System Operational
+            </div>
+
+            <div className="status-subtitle">
+              AI monitoring active
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* VERSION */}
+
+        <div className="sidebar-version">
+          SHEETKSHETRA v1.0
+        </div>
+
+      </div>
+
+    </aside>
   );
 }
 

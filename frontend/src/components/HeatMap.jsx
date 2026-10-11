@@ -3,421 +3,684 @@ import {
   MapContainer,
   TileLayer,
   Circle,
-  Popup
+  Popup,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 
-function HeatMap() {
-
+function HeatMap({ setActivePage }) {
+  const [activeLayer, setActiveLayer] = useState("Thermal Risk");
   const [selectedZone, setSelectedZone] = useState(null);
 
-  const bhubaneswar = [20.2961, 85.8245];
+  const mapCenter = [20.2961, 85.8245];
 
-  const heatZones = [
-
+  const zones = [
     {
+      id: 1,
       name: "Patia",
-      position: [20.3558, 85.8187],
-      temperature: 41.2,
-      vegetation: 12,
-      builtUp: 78,
+      position: [20.354, 85.819],
+      temperature: "41.2°C",
+      vegetation: "12%",
+      builtUp: "78%",
       population: "48,200",
       risk: 92,
-      level: "Critical",
+      status: "Critical",
       radius: 900,
-      color: "#ef4444"
+      recommendation:
+        "Prioritize urban forestry, cool roofs and shaded pedestrian corridors.",
     },
-
     {
+      id: 2,
       name: "Khandagiri",
-      position: [20.2547, 85.7755],
-      temperature: 39.4,
-      vegetation: 18,
-      builtUp: 69,
+      position: [20.257, 85.776],
+      temperature: "39.4°C",
+      vegetation: "18%",
+      builtUp: "69%",
       population: "36,700",
       risk: 74,
-      level: "High",
+      status: "High",
       radius: 750,
-      color: "#f97316"
+      recommendation:
+        "Increase vegetation coverage and target exposed built-up surfaces.",
     },
-
     {
+      id: 3,
       name: "Saheed Nagar",
-      position: [20.3008, 85.8424],
-      temperature: 37.6,
-      vegetation: 24,
-      builtUp: 61,
+      position: [20.296, 85.846],
+      temperature: "37.6°C",
+      vegetation: "24%",
+      builtUp: "61%",
       population: "29,400",
       risk: 61,
-      level: "Medium",
+      status: "Medium",
       radius: 650,
-      color: "#eab308"
+      recommendation:
+        "Improve shade coverage and identify high-exposure public areas.",
     },
-
     {
+      id: 4,
       name: "Old Town",
-      position: [20.2380, 85.8338],
-      temperature: 34.8,
-      vegetation: 36,
-      builtUp: 47,
+      position: [20.238, 85.834],
+      temperature: "34.8°C",
+      vegetation: "36%",
+      builtUp: "47%",
       population: "21,800",
       risk: 47,
-      level: "Low",
+      status: "Low",
       radius: 600,
-      color: "#22c55e"
-    }
-
+      recommendation:
+        "Maintain existing vegetation and protect current cooling assets.",
+    },
   ];
 
+  const getZoneColor = (risk) => {
+    if (risk >= 80) {
+      return "#c93b2d";
+    }
+
+    if (risk >= 65) {
+      return "#e8751a";
+    }
+
+    if (risk >= 50) {
+      return "#d4a72c";
+    }
+
+    return "#4d8a67";
+  };
+
+  const getLayerValue = (zone) => {
+    if (activeLayer === "Temperature") {
+      return zone.temperature;
+    }
+
+    if (activeLayer === "WBGT") {
+      const wbgtValues = {
+        Patia: "33.8°C",
+        Khandagiri: "32.1°C",
+        "Saheed Nagar": "30.7°C",
+        "Old Town": "28.9°C",
+      };
+
+      return wbgtValues[zone.name];
+    }
+
+    if (activeLayer === "Population") {
+      return zone.population;
+    }
+
+    return zone.risk;
+  };
+
+  const selectZone = (zone) => {
+    setSelectedZone(zone);
+  };
 
   return (
+    <div className="heatmap-page">
 
-    <div className="heat-map-system">
+      {/* =====================================================
+          PAGE HEADER
+          ===================================================== */}
 
-      {/* MAP */}
+      <section className="page-header">
 
-      <div className="real-map">
+        <div className="page-header-copy">
 
-        <MapContainer
-          center={bhuBaneswarSafe(bhubaneswar)}
-          zoom={12}
-          scrollWheelZoom={true}
-          style={{
-            height: "100%",
-            width: "100%"
-          }}
-        >
+          <div className="page-eyebrow">
+            SPATIAL HEAT INTELLIGENCE
+          </div>
 
-          <TileLayer
-            attribution='&copy; OpenStreetMap contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+          <h1 className="page-title">
+            Heat Map
+          </h1>
 
+          <p className="page-description">
+            Explore ward-level thermal conditions,
+            human heat risk and population exposure
+            across Bhubaneswar.
+          </p>
 
-          {/* CITY */}
+        </div>
 
-          <Circle
-            center={bhubaneswar}
-            radius={500}
-            pathOptions={{
-              color: "#b6ff00",
-              fillColor: "#b6ff00",
-              fillOpacity: 0.08,
-              weight: 2
-            }}
-          >
+        <div className="overview-header-location">
 
-            <Popup>
-
-              <strong>
-                Bhubaneswar
-              </strong>
-
-              <br />
-
-              SheetKshetra analysis region
-
-            </Popup>
-
-          </Circle>
-
-
-          {/* ZONES */}
-
-          {heatZones.map((zone) => (
-
-            <Circle
-              key={zone.name}
-              center={zone.position}
-              radius={zone.radius}
-
-              pathOptions={{
-                color: zone.color,
-                fillColor: zone.color,
-                fillOpacity: 0.25,
-                weight: 2
-              }}
-
-              eventHandlers={{
-                click: () => {
-                  setSelectedZone(zone);
-                }
-              }}
-            >
-
-              <Popup>
-
-                <strong>
-                  {zone.name}
-                </strong>
-
-                <br />
-
-                {zone.temperature}°C
-
-                <br />
-
-                {zone.level} Risk
-
-              </Popup>
-
-            </Circle>
-
-          ))}
-
-        </MapContainer>
-
-
-        {/* MAP HEADER */}
-
-        <div className="map-overlay-top">
+          <span className="overview-location-dot"></span>
 
           <div>
 
-            <span>
-              LIVE SATELLITE ANALYSIS
-            </span>
-
-            <strong>
-              BHUBANESWAR
-            </strong>
-
-          </div>
-
-          <div className="map-live">
-            ● LIVE
-          </div>
-
-        </div>
-
-
-        {/* LEGEND */}
-
-        <div className="map-overlay-bottom">
-
-          <div className="map-legend-real">
-
-            <div>
-              <i className="real-critical"></i>
-              Critical
+            <div className="overview-location-city">
+              Bhubaneswar
             </div>
 
-            <div>
-              <i className="real-high"></i>
-              High
-            </div>
-
-            <div>
-              <i className="real-medium"></i>
-              Medium
-            </div>
-
-            <div>
-              <i className="real-low"></i>
-              Low
+            <div className="overview-location-state">
+              Odisha, India
             </div>
 
           </div>
 
         </div>
 
-      </div>
+      </section>
 
 
-      {/* ZONE PANEL */}
+      {/* =====================================================
+          MAP WORKSPACE
+          ===================================================== */}
 
-      <div className="zone-intelligence">
+      <section className="heatmap-workspace">
 
-        {!selectedZone ? (
+        {/* ===================================================
+            MAP AREA
+            =================================================== */}
 
-          <div className="zone-empty">
+        <div className="heatmap-map-container">
 
-            <div className="zone-empty-icon">
-              ◎
+          <div className="heatmap-layer-control">
+
+            <div className="heatmap-layer-label">
+              MAP LAYER
             </div>
 
-            <h3>
-              Select a Heat Zone
-            </h3>
+            <div className="heatmap-layer-buttons">
 
-            <p>
-              Click any highlighted area on the map
-              to inspect its urban heat profile.
-            </p>
+              {[
+                "Thermal Risk",
+                "Temperature",
+                "WBGT",
+                "Population",
+              ].map((layer) => (
+                <button
+                  type="button"
+                  key={layer}
+                  className={
+                    activeLayer === layer
+                      ? "active"
+                      : ""
+                  }
+                  onClick={() =>
+                    setActiveLayer(layer)
+                  }
+                >
+                  {layer}
+                </button>
+              ))}
+
+            </div>
 
           </div>
 
-        ) : (
 
-          <ZoneDetails
-            zone={selectedZone}
-          />
+          <MapContainer
+            center={mapCenter}
+            zoom={12}
+            scrollWheelZoom={true}
+            className="heatmap-map"
+          >
 
-        )}
+            <TileLayer
+              attribution='&copy; OpenStreetMap contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
 
-      </div>
+            {zones.map((zone) => (
+              <Circle
+                key={zone.id}
+                center={zone.position}
+                radius={zone.radius}
+                pathOptions={{
+                  color: getZoneColor(zone.risk),
+                  fillColor: getZoneColor(zone.risk),
+                  fillOpacity:
+                    selectedZone?.id === zone.id
+                      ? 0.48
+                      : 0.28,
+                  weight:
+                    selectedZone?.id === zone.id
+                      ? 3
+                      : 1.5,
+                }}
+                eventHandlers={{
+                  click: () => selectZone(zone),
+                }}
+              >
+
+                <Popup>
+
+                  <div className="map-popup">
+
+                    <div className="map-popup-title">
+                      {zone.name}
+                    </div>
+
+                    <div className="map-popup-status">
+                      {zone.status} Risk
+                    </div>
+
+                    <div className="map-popup-grid">
+
+                      <span>
+                        Surface temperature
+                      </span>
+
+                      <strong>
+                        {zone.temperature}
+                      </strong>
+
+                      <span>
+                        Risk score
+                      </span>
+
+                      <strong>
+                        {zone.risk}
+                      </strong>
+
+                      <span>
+                        Population
+                      </span>
+
+                      <strong>
+                        {zone.population}
+                      </strong>
+
+                    </div>
+
+                  </div>
+
+                </Popup>
+
+              </Circle>
+            ))}
+
+          </MapContainer>
+
+
+          {/* HISTORICAL DATA LABEL */}
+
+          <div className="heatmap-data-label">
+
+            <span className="data-label-dot"></span>
+
+            <div>
+
+              <strong>
+                SATELLITE-DERIVED ANALYSIS
+              </strong>
+
+              <span>
+                Bhubaneswar · Pre-monsoon 2024
+              </span>
+
+            </div>
+
+          </div>
+
+
+          {/* MAP LEGEND */}
+
+          <div className="heatmap-legend">
+
+            <div className="heatmap-legend-title">
+              THERMAL RISK
+            </div>
+
+            <div className="heatmap-legend-scale">
+
+              <span className="legend-item critical">
+                <i></i>
+                Critical
+              </span>
+
+              <span className="legend-item high">
+                <i></i>
+                High
+              </span>
+
+              <span className="legend-item medium">
+                <i></i>
+                Medium
+              </span>
+
+              <span className="legend-item low">
+                <i></i>
+                Low
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* ===================================================
+            INTELLIGENCE PANEL
+            =================================================== */}
+
+        <aside className="heatmap-intelligence">
+
+          <div className="heatmap-panel-header">
+
+            <div>
+
+              <div className="dashboard-card-title">
+                Risk Hotspots
+              </div>
+
+              <div className="dashboard-card-subtitle">
+                Priority locations across the city
+              </div>
+
+            </div>
+
+            <div className="heatmap-hotspot-count">
+              {zones.length}
+            </div>
+
+          </div>
+
+
+          {/* ZONE LIST */}
+
+          <div className="heatmap-zone-list">
+
+            {zones.map((zone) => (
+
+              <button
+                type="button"
+                key={zone.id}
+                className={`heatmap-zone-item ${
+                  selectedZone?.id === zone.id
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() => selectZone(zone)}
+              >
+
+                <div className="heatmap-zone-main">
+
+                  <div>
+
+                    <strong>
+                      {zone.name}
+                    </strong>
+
+                    <span>
+                      {zone.temperature}
+                    </span>
+
+                  </div>
+
+                  <div
+                    className={`heatmap-zone-status ${
+                      zone.status.toLowerCase()
+                    }`}
+                  >
+                    {zone.status}
+                  </div>
+
+                </div>
+
+
+                <div className="heatmap-zone-bottom">
+
+                  <span>
+                    Risk score
+                  </span>
+
+                  <strong>
+                    {zone.risk}
+                  </strong>
+
+                  <span className="heatmap-zone-population">
+                    {zone.population} exposed
+                  </span>
+
+                </div>
+
+              </button>
+
+            ))}
+
+          </div>
+
+
+          {/* =================================================
+              SELECTED ZONE
+              ================================================= */}
+
+          {selectedZone ? (
+
+            <div className="heatmap-selected-zone">
+
+              <div className="selected-zone-header">
+
+                <div>
+
+                  <span>
+                    SELECTED HOTSPOT
+                  </span>
+
+                  <h3>
+                    {selectedZone.name}
+                  </h3>
+
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSelectedZone(null)
+                  }
+                  aria-label="Close selected zone"
+                >
+                  ×
+                </button>
+
+              </div>
+
+
+              <div className="selected-zone-metrics">
+
+                <div>
+
+                  <span>
+                    SURFACE TEMP.
+                  </span>
+
+                  <strong>
+                    {selectedZone.temperature}
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span>
+                    VEGETATION
+                  </span>
+
+                  <strong>
+                    {selectedZone.vegetation}
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span>
+                    BUILT-UP
+                  </span>
+
+                  <strong>
+                    {selectedZone.builtUp}
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span>
+                    RISK SCORE
+                  </span>
+
+                  <strong>
+                    {selectedZone.risk}
+                  </strong>
+
+                </div>
+
+              </div>
+
+
+              <div className="selected-zone-population">
+
+                <span>
+                  POPULATION EXPOSURE
+                </span>
+
+                <strong>
+                  {selectedZone.population}
+                </strong>
+
+              </div>
+
+
+              <div className="selected-zone-insight">
+
+                <div className="selected-zone-insight-label">
+                  AI RECOMMENDATION
+                </div>
+
+                <p>
+                  {selectedZone.recommendation}
+                </p>
+
+              </div>
+
+
+              <button
+                type="button"
+                className="selected-zone-action"
+                onClick={() =>
+                  setActivePage("AI Cooling Plan")
+                }
+              >
+                Create cooling plan
+                <span>→</span>
+              </button>
+
+            </div>
+
+          ) : (
+
+            <div className="heatmap-empty-selection">
+
+              <div className="empty-selection-mark">
+                +
+              </div>
+
+              <strong>
+                Select a hotspot
+              </strong>
+
+              <p>
+                Click a risk zone on the map or select
+                a location from the list to inspect its
+                thermal intelligence.
+              </p>
+
+            </div>
+
+          )}
+
+        </aside>
+
+      </section>
+
+
+      {/* =====================================================
+          MAP SUMMARY
+          ===================================================== */}
+
+      <section className="heatmap-summary-grid">
+
+        <div className="dashboard-card">
+
+          <div className="summary-card-label">
+            THERMAL HOTSPOT
+          </div>
+
+          <div className="summary-card-value">
+            18
+          </div>
+
+          <div className="summary-card-description">
+            high-risk areas identified across the
+            monitored city region.
+          </div>
+
+        </div>
+
+
+        <div className="dashboard-card">
+
+          <div className="summary-card-label">
+            VULNERABLE POPULATION
+          </div>
+
+          <div className="summary-card-value">
+            2.4L
+          </div>
+
+          <div className="summary-card-description">
+            estimated population exposed to elevated
+            human thermal stress.
+          </div>
+
+        </div>
+
+
+        <div className="dashboard-card">
+
+          <div className="summary-card-label">
+            COOLING OPPORTUNITY
+          </div>
+
+          <div className="summary-card-value">
+            HIGH
+          </div>
+
+          <div className="summary-card-description">
+            multiple priority zones have strong
+            intervention potential.
+          </div>
+
+        </div>
+
+
+        <div className="dashboard-card">
+
+          <div className="summary-card-label">
+            ACTIVE LAYER
+          </div>
+
+          <div className="summary-card-value summary-layer-value">
+            {getLayerValue(
+              selectedZone || zones[0]
+            )}
+          </div>
+
+          <div className="summary-card-description">
+            {activeLayer} view currently selected.
+          </div>
+
+        </div>
+
+      </section>
 
     </div>
   );
 }
-
-
-/* ================================= */
-/* ZONE DETAILS */
-/* ================================= */
-
-function ZoneDetails({ zone }) {
-
-  return (
-
-    <div className="zone-details">
-
-      <div className="zone-header">
-
-        <div>
-
-          <span>
-            SELECTED ZONE
-          </span>
-
-          <h2>
-            {zone.name}
-          </h2>
-
-        </div>
-
-        <div
-          className="zone-risk"
-          style={{
-            color: zone.color
-          }}
-        >
-          {zone.level}
-        </div>
-
-      </div>
-
-
-      {/* TEMPERATURE */}
-
-      <div className="zone-temperature">
-
-        <span>
-          SURFACE TEMPERATURE
-        </span>
-
-        <strong>
-          {zone.temperature}°C
-        </strong>
-
-        <div className="temperature-bar">
-
-          <div
-            style={{
-              width: `${Math.min(
-                ((zone.temperature - 30) / 15) * 100,
-                100
-              )}%`,
-              background: zone.color
-            }}
-          />
-
-        </div>
-
-      </div>
-
-
-      {/* METRICS */}
-
-      <div className="zone-metrics">
-
-        <Metric
-          label="Vegetation"
-          value={`${zone.vegetation}%`}
-        />
-
-        <Metric
-          label="Built-up"
-          value={`${zone.builtUp}%`}
-        />
-
-        <Metric
-          label="Population"
-          value={zone.population}
-        />
-
-        <Metric
-          label="Risk Score"
-          value={`${zone.risk}/100`}
-        />
-
-      </div>
-
-
-      {/* AI RECOMMENDATION */}
-
-      <div className="zone-recommendation">
-
-        <span>
-          ✦ AI RECOMMENDATION
-        </span>
-
-        <h3>
-          Prioritize cooling intervention
-        </h3>
-
-        <p>
-          High surface temperature and
-          {zone.vegetation < 20
-            ? " low vegetation"
-            : " moderate vegetation"}
-          {" "}make this zone suitable for
-          targeted urban cooling.
-        </p>
-
-      </div>
-
-    </div>
-
-  );
-}
-
-
-/* ================================= */
-/* METRIC */
-/* ================================= */
-
-function Metric({
-  label,
-  value
-}) {
-
-  return (
-
-    <div className="zone-metric">
-
-      <span>
-        {label}
-      </span>
-
-      <strong>
-        {value}
-      </strong>
-
-    </div>
-
-  );
-}
-
-
-/* ================================= */
-/* SAFETY */
-/* ================================= */
-
-function bhuBaneswarSafe(coords) {
-  return coords;
-}
-
 
 export default HeatMap;
