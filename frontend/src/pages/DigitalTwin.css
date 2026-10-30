@@ -1,0 +1,428 @@
+
+.dt-page {
+  padding: 22px;
+  color: #344b5b;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dt-page * {
+  box-sizing: border-box;
+}
+
+.dt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.dt-header h2 {
+  margin: 0;
+  font-size: 25px;
+  color: #263746;
+}
+
+.dt-header p,
+.dt-section-heading p {
+  margin: 7px 0 0;
+  font-size: 13px;
+  color: #82919b;
+}
+
+.dt-ward-select {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #82919b;
+}
+
+.dt-ward-select select {
+  min-width: 200px;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #dce5e9;
+  border-radius: 9px;
+  background: #fff;
+  color: #344b5b;
+}
+
+.dt-ward-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px;
+  margin-bottom: 18px;
+  border: 1px solid #dce9e9;
+  border-radius: 13px;
+  background: linear-gradient(110deg, #eff9f7, #f6f8fb);
+}
+
+.dt-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #7b9294;
+}
+
+.dt-ward-banner h3 {
+  margin: 8px 0;
+  font-size: 23px;
+  color: #263746;
+}
+
+.dt-ward-banner h3 small {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #82919b;
+}
+
+.dt-ward-banner p {
+  margin: 0;
+  font-size: 12px;
+  color: #82919b;
+}
+
+.dt-baseline {
+  text-align: right;
+}
+
+.dt-baseline span,
+.dt-card span {
+  display: block;
+  font-size: 12px;
+  color: #82919b;
+}
+
+.dt-baseline strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 29px;
+  color: #e17a42;
+}
+
+.dt-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.dt-card {
+  padding: 18px;
+  border: 1px solid #e3e9ec;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(40, 60, 70, 0.04);
+}
+
+.dt-card strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 23px;
+  color: #344b5b;
+  overflow-wrap: anywhere;
+}
+
+.dt-card small {
+  display: block;
+  margin-top: 7px;
+  color: #91a0a8;
+  font-size: 11px;
+}
+
+.dt-cooling-card {
+  background: #f0faf5;
+  border-color: #d1eddd;
+}
+
+.dt-cooling-card strong {
+  color: #23966b;
+}
+
+.dt-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin: 22px 0 15px;
+}
+
+.dt-section-heading h3,
+.dt-impact-panel h3 {
+  margin: 0;
+  font-size: 17px;
+  color: #344b5b;
+}
+
+.dt-reset {
+  border: 1px solid #dce5e9;
+  border-radius: 8px;
+  padding: 9px 14px;
+  background: #fff;
+  color: #647986;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dt-reset:hover {
+  border-color: #e5a06f;
+  color: #d97745;
+}
+
+.dt-scenarios {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.dt-scenario {
+  padding: 16px;
+  text-align: left;
+  border: 1px solid #e3e9ec;
+  border-radius: 11px;
+  background: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dt-scenario strong {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 14px;
+  color: #344b5b;
+}
+
+.dt-scenario span {
+  display: block;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #8998a1;
+}
+
+.dt-scenario.active {
+  border-color: #75b9a1;
+  background: #f1faf6;
+  box-shadow: 0 0 0 2px rgba(75, 160, 125, 0.08);
+}
+
+.dt-custom-label {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  color: #d97745;
+}
+
+.dt-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(270px, 0.9fr);
+  align-items: start;
+  gap: 18px;
+}
+
+.dt-interventions,
+.dt-impact-panel {
+  padding: 20px;
+  border: 1px solid #e3e9ec;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.dt-intervention {
+  padding: 17px 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.dt-intervention:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.dt-intervention-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.dt-intervention-name {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.dt-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #f1f7f5;
+  font-size: 19px;
+}
+
+.dt-intervention-name strong {
+  display: block;
+  font-size: 13px;
+  color: #344b5b;
+}
+
+.dt-intervention-name small {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #8b9aa2;
+}
+
+.dt-percent {
+  color: #289a75;
+  font-size: 14px;
+}
+
+.dt-intervention input[type="range"] {
+  width: 100%;
+  margin: 17px 0 5px;
+  accent-color: #39a47c;
+  cursor: pointer;
+}
+
+.dt-range-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #a0abb1;
+  font-size: 10px;
+}
+
+.dt-impact-panel > p {
+  margin: 7px 0 18px;
+  color: #8998a1;
+  font-size: 12px;
+}
+
+.dt-impact-temperature {
+  padding: 17px;
+  margin-bottom: 13px;
+  border: 1px solid #d5eee2;
+  border-radius: 10px;
+  background: #f0faf5;
+}
+
+.dt-impact-temperature span {
+  display: block;
+  font-size: 12px;
+  color: #77988a;
+}
+
+.dt-impact-temperature strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 29px;
+  color: #23966b;
+}
+
+.dt-impact-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #edf0f2;
+  font-size: 12px;
+}
+
+.dt-impact-row span {
+  color: #82919b;
+}
+
+.dt-impact-row strong {
+  text-align: right;
+  color: #344b5b;
+}
+
+.dt-impact-note {
+  padding: 14px;
+  margin-top: 17px;
+  border-radius: 9px;
+  background: #f3f8fb;
+}
+
+.dt-impact-note strong {
+  font-size: 12px;
+  color: #3e7188;
+}
+
+.dt-impact-note p {
+  margin: 7px 0 0;
+  color: #718793;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.dt-disclaimer {
+  padding: 16px 18px;
+  margin-top: 20px;
+  border: 1px solid #f0dfc5;
+  border-radius: 10px;
+  background: #fffaf2;
+}
+
+.dt-disclaimer strong {
+  color: #a66b30;
+  font-size: 12px;
+}
+
+.dt-disclaimer p {
+  margin: 7px 0 0;
+  color: #8b806e;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+@media (max-width: 1000px) {
+  .dt-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dt-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .dt-page {
+    padding: 14px;
+  }
+
+  .dt-scenarios {
+    grid-template-columns: 1fr;
+  }
+
+  .dt-ward-banner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dt-baseline {
+    text-align: left;
+  }
+
+  .dt-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+
+  .dt-card {
+    padding: 13px;
+  }
+
+  .dt-card strong {
+    font-size: 19px;
+  }
+}
