@@ -1,0 +1,12 @@
+intervention_type,feature_modified,delta_value,unit,cost_per_unit,cost_unit,notes,max_plausible_drop_c
+plant_trees,NDVI,0.05,per 100 trees/hectare,1500,per tree,Placeholder delta - refine using within-city high vs low NDVI comparison. Cost from generic municipal tree-planting estimates - verify against Odisha PWD SOR.,2.5
+plant_trees,dist_to_green,-50,meters (reduction),0,included above,New trees reduce distance-to-green for nearby cells,2.5
+cool_roofs,albedo,0.15,absolute increase,800,per sqm,Cool roof coatings typically raise albedo 0.1-0.2. Cost is rough - verify with vendor quotes.,2.0
+green_roofs,NDVI,0.08,absolute increase,2500,per sqm,Higher cost than cool roofs due to structural/irrigation needs,2.0
+green_roofs,albedo,0.05,absolute increase,0,included above,,2.0
+reflective_roads,albedo,0.20,absolute increase,1200,per sqm,Reflective road coatings - cost varies significantly by material,1.5
+reflective_roads,impervious_fraction,0,no change,0,,"Reflective roads don't reduce impervious cover, only albedo",1.5
+green_corridors,NDVI,0.10,absolute increase,500,per sqm,Linear green strips - lower cost than parks due to smaller footprint per area,2.0
+green_corridors,dist_to_green,-100,meters (reduction),0,included above,,2.0
+water_bodies,NDWI,0.15,absolute increase,3000,per sqm,Most expensive intervention - excavation/retrofitting costs,2.5
+water_bodies,dist_to_water,-100,meters (reduction),0,included above,,2.5
